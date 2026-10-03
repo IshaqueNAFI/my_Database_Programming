@@ -1,0 +1,56 @@
+MariaDB [aisraildb]> select `check`, remarks from checks;
++-------+---------------------+
+| check | remarks             |
++-------+---------------------+
+|     1 | Have sons next time |
+|     2 | Train to Chicago    |
+|     3 | Celluar Phone       |
+|     4 | Gas                 |
+|     5 | Groceries           |
+|     6 | Wild Night Out      |
+|     7 | Gas                 |
++-------+---------------------+
+7 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select remarks, `check` from checks;
++---------------------+-------+
+| remarks             | check |
++---------------------+-------+
+| Have sons next time |     1 |
+| Train to Chicago    |     2 |
+| Celluar Phone       |     3 |
+| Gas                 |     4 |
+| Groceries           |     5 |
+| Wild Night Out      |     6 |
+| Gas                 |     7 |
++---------------------+-------+
+7 rows in set (0.000 sec)
+
+MariaDB [aisrail]> select DISTINCT remarks from checks;
++---------------------+
+| remarks             |
++---------------------+
+| Have sons next time |
+| Train to Chicago    |
+| Celluar Phone       |
+| Gas                 |
+| Groceries           |
+| Wild Night Out      |
++---------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisrail]> select `check`, amount from checks;
++-------+--------+
+| check | amount |
++-------+--------+
+|     1 | 150.00 |
+|     2 | 245.34 |
+|     3 | 200.32 |
+|     4 |  98.00 |
+|     5 | 150.00 |
+|     6 |  25.00 |
+|     7 |  25.10 |
++-------+--------+
+7 rows in set (0.000 sec)
+
+MariaDB [aisrail]> notee

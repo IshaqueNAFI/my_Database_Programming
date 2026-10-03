@@ -1,0 +1,155 @@
+MariaDB [cnibrajdb]> create table checks
+    -> (`check`          numeric(6)       not null,
+    ->  payee          varchar(20)      not null,
+    ->  amount         decimal(6,2)     not null,
+    ->  remarks        varchar(20)     not null);
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('1', 'Ma Bell', '150', 'Have sons next time');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('2', 'Reading R.R.', '245.34', 'Train to Chicago');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('3', 'Ma Bell', '200.32', 'Celluar Phone');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('4', 'Local Utilities', '98', 'Gas');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('5', 'Joes Stale $ Dent', '150', 'Groceries');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('6', 'Cash', '25', 'Wild Night Out');
+Query OK, 1 row affected (0.000 sec)
+
+MariaDB [cnibrajdb]> 
+MariaDB [cnibrajdb]> insert into checks values
+    -> ('7', 'Joans Gas', '25.1', 'Gas');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [cnibrajdb]> select * from checks;
++-------+-------------------+--------+---------------------+
+| check | payee             | amount | remarks             |
++-------+-------------------+--------+---------------------+
+|     1 | Ma Bell           | 150.00 | Have sons next time |
+|     2 | Reading R.R.      | 245.34 | Train to Chicago    |
+|     3 | Ma Bell           | 200.32 | Celluar Phone       |
+|     4 | Local Utilities   |  98.00 | Gas                 |
+|     5 | Joes Stale $ Dent | 150.00 | Groceries           |
+|     6 | Cash              |  25.00 | Wild Night Out      |
+|     7 | Joans Gas         |  25.10 | Gas                 |
++-------+-------------------+--------+---------------------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> SELECT `check`, amount from checks;
++-------+--------+
+| check | amount |
++-------+--------+
+|     1 | 150.00 |
+|     2 | 245.34 |
+|     3 | 200.32 |
+|     4 |  98.00 |
+|     5 | 150.00 |
+|     6 |  25.00 |
+|     7 |  25.10 |
++-------+--------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> select payee, `check`, remarks, amount from checks;
++-------------------+-------+---------------------+--------+
+| payee             | check | remarks             | amount |
++-------------------+-------+---------------------+--------+
+| Ma Bell           |     1 | Have sons next time | 150.00 |
+| Reading R.R.      |     2 | Train to Chicago    | 245.34 |
+| Ma Bell           |     3 | Celluar Phone       | 200.32 |
+| Local Utilities   |     4 | Gas                 |  98.00 |
+| Joes Stale $ Dent |     5 | Groceries           | 150.00 |
+| Cash              |     6 | Wild Night Out      |  25.00 |
+| Joans Gas         |     7 | Gas                 |  25.10 |
++-------------------+-------+---------------------+--------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> select payee, amount, remarks, `check`
+    -> from checks;
++-------------------+--------+---------------------+-------+
+| payee             | amount | remarks             | check |
++-------------------+--------+---------------------+-------+
+| Ma Bell           | 150.00 | Have sons next time |     1 |
+| Reading R.R.      | 245.34 | Train to Chicago    |     2 |
+| Ma Bell           | 200.32 | Celluar Phone       |     3 |
+| Local Utilities   |  98.00 | Gas                 |     4 |
+| Joes Stale $ Dent | 150.00 | Groceries           |     5 |
+| Cash              |  25.00 | Wild Night Out      |     6 |
+| Joans Gas         |  25.10 | Gas                 |     7 |
++-------------------+--------+---------------------+-------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> select amount from checks;
++--------+
+| amount |
++--------+
+| 150.00 |
+| 245.34 |
+| 200.32 |
+|  98.00 |
+| 150.00 |
+|  25.00 |
+|  25.10 |
++--------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> select DISTINCT amount from checks;
++--------+
+| amount |
++--------+
+| 150.00 |
+| 245.34 |
+| 200.32 |
+|  98.00 |
+|  25.00 |
+|  25.10 |
++--------+
+6 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> select DISTINCT payee, amount from checks;
++-------------------+--------+
+| payee             | amount |
++-------------------+--------+
+| Ma Bell           | 150.00 |
+| Reading R.R.      | 245.34 |
+| Ma Bell           | 200.32 |
+| Local Utilities   |  98.00 |
+| Joes Stale $ Dent | 150.00 |
+| Cash              |  25.00 |
+| Joans Gas         |  25.10 |
++-------------------+--------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> select all amount from checks;
++--------+
+| amount |
++--------+
+| 150.00 |
+| 245.34 |
+| 200.32 |
+|  98.00 |
+| 150.00 |
+|  25.00 |
+|  25.10 |
++--------+
+7 rows in set (0.000 sec)
+
+MariaDB [cnibrajdb]> notee
