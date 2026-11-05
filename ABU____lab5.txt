@@ -1,0 +1,360 @@
+MariaDB [aisraildb]> select * from part;
++---------+---------------+---------+
+| partnum | description   | price   |
++---------+---------------+---------+
+|      54 | PEDALS        |   54.25 |
+|      42 | SEATS         |   24.50 |
+|      46 | TIRES         |   15.25 |
+|      23 | MOUNTAIN BIKE |  350.45 |
+|      76 | ROAD BIKE     |  530.00 |
+|      10 | TANDEM        | 1200.00 |
++---------+---------------+---------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from orders;
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-09-02 | TRUE WHEEL |      10 |        1 | PAID    |
+| 1996-06-30 | TRUE WHEEL |      42 |        8 | PAID    |
+| 1996-06-30 | BIKE SPEC  |      54 |       10 | PAID    |
+| 1996-05-30 | BIKE SPEC  |      23 |        8 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-06-01 | LE SHOPPE  |      10 |        3 | PAID    |
+| 1996-06-01 | AAA BIKE   |      10 |        1 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-01 | AAA BIKE   |      46 |       14 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+12 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from orders where partnum=(select partnum from part where description like 'ROAD%');
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select partnum from part where description like '%BIKE';
++---------+
+| partnum |
++---------+
+|      23 |
+|      76 |
++---------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from orders where partnum = 76;
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select o.orderedon, o.name, o.partnum, o.quantity, o.remarks from orders o, part p where o.partnum = p.partnum and p.description like 'ROAD%';
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select o.orderedon, o.partnum, p.description, o.quantity, o.remarks from orders o, part p where o.partnum=p.partnum and o.partnum=(select partnum from part where description like 'ROAD%');
++------------+---------+-------------+----------+---------+
+| orderedon  | partnum | description | quantity | remarks |
++------------+---------+-------------+----------+---------+
+| 1996-05-19 |      76 | ROAD BIKE   |        3 | PAID    |
+| 1996-01-17 |      76 | ROAD BIKE   |       11 | PAID    |
+| 1996-01-17 |      76 | ROAD BIKE   |        5 | PAID    |
+| 1996-07-01 |      76 | ROAD BIKE   |        4 | PAID    |
+| 1996-07-11 |      76 | ROAD BIKE   |       14 | PAID    |
++------------+---------+-------------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> insert into part values (77, 'ROADKILL', 7.99);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> select * from part;
++---------+---------------+---------+
+| partnum | description   | price   |
++---------+---------------+---------+
+|      54 | PEDALS        |   54.25 |
+|      42 | SEATS         |   24.50 |
+|      46 | TIRES         |   15.25 |
+|      23 | MOUNTAIN BIKE |  350.45 |
+|      76 | ROAD BIKE     |  530.00 |
+|      10 | TANDEM        | 1200.00 |
+|      77 | ROADKILL      |    7.99 |
++---------+---------------+---------+
+7 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select o.orderedon, o.partnum, p.description, o.quantity, o.remarks from orders o, part p where o.partnum = p.partnum and o.partnum =(select partnum from part where description like 'ROAD%');
+ERROR 1242 (21000): Subquery returns more than 1 row
+MariaDB [aisraildb]> select partnum from part where description like 'ROAD%';
++---------+
+| partnum |
++---------+
+|      76 |
+|      77 |
++---------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select o.orderedon, o.partnum, p.description, o.quantity, o.remarks from orders o, part p where o.partnum=p.partnum and o.partnum=(select partnum from part where description='ROAD BIKE');
++------------+---------+-------------+----------+---------+
+| orderedon  | partnum | description | quantity | remarks |
++------------+---------+-------------+----------+---------+
+| 1996-05-19 |      76 | ROAD BIKE   |        3 | PAID    |
+| 1996-01-17 |      76 | ROAD BIKE   |       11 | PAID    |
+| 1996-01-17 |      76 | ROAD BIKE   |        5 | PAID    |
+| 1996-07-01 |      76 | ROAD BIKE   |        4 | PAID    |
+| 1996-07-11 |      76 | ROAD BIKE   |       14 | PAID    |
++------------+---------+-------------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select avg(o.quantity * p.price) from orders o, part p where o.partnum = p.partnum;
++---------------------------+
+| avg(o.quantity * p.price) |
++---------------------------+
+|               2447.133333 |
++---------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select o.name, o.orderedon, o.quantity * p.price total from orders o,part p where o.partnum = p.partnum and o.quantity * p.price > (select avg(o.quantity * p.price) from orders o, part p where o.partnum = p.partnum);
++------------+------------+---------+
+| name       | orderedon  | total   |
++------------+------------+---------+
+| BIKE SPEC  | 1996-05-30 | 2803.60 |
+| BIKE SPEC  | 1996-01-17 | 5830.00 |
+| LE SHOPPE  | 1996-01-17 | 2650.00 |
+| LE SHOPPE  | 1996-06-01 | 3600.00 |
+| JACKS BIKE | 1996-07-11 | 7420.00 |
++------------+------------+---------+
+5 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> select * from customer;
++------------+------------+-------+-------+----------+----------+
+| name       | address    | state | zip   | phone    | remarks  |
++------------+------------+-------+-------+----------+----------+
+| TRUE WHEEL | 550 HUSKER | NE    | 58702 | 555-4545 | NONE     |
+| BIKE SPEC  | CPT SHRIVE | LA    | 45678 | 555-1234 | NONE     |
+| LE SHOPPE  | HOMETOWN   | KS    | 54678 | 555-1278 | NONE     |
+| AAA BIKE   | 10 OLDTOWN | NE    | 56784 | 555-3421 | JOHN-MGR |
+| JACKS BIKE | 24 EGLIN   | FL    | 34567 | 555-2314 | NONE     |
++------------+------------+-------+-------+----------+----------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select all c.name, c.address, c.state, c.zip from customer c where c.name in (select o.name from orders o, part p where o.partnum = p.partnum and o.quantity * p.price > (select avg(o.quantity * p.price) from orders o, part p where o.partnum = p.partnum));
++------------+------------+-------+-------+
+| name       | address    | state | zip   |
++------------+------------+-------+-------+
+| BIKE SPEC  | CPT SHRIVE | LA    | 45678 |
+| LE SHOPPE  | HOMETOWN   | KS    | 54678 |
+| JACKS BIKE | 24 EGLIN   | FL    | 34567 |
++------------+------------+-------+-------+
+3 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> select o.name from orders o, part p where o.partnum = p.partnum and o.quantity * p.price > (select avg(o.quantity * p.price) from orders o, part p where o.partnum = p.partnum);
++------------+
+| name       |
++------------+
+| BIKE SPEC  |
+| BIKE SPEC  |
+| LE SHOPPE  |
+| LE SHOPPE  |
+| JACKS BIKE |
++------------+
+5 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> select name, avg(quantity) from orders group by name having avg(quantity) > (select avg(quantity) from orders);
++------------+---------------+
+| name       | avg(quantity) |
++------------+---------------+
+| BIKE SPEC  |        9.6667 |
+| JACKS BIKE |       14.0000 |
++------------+---------------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select avg(quantity) from orders;
++---------------+
+| avg(quantity) |
++---------------+
+|        6.8333 |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, avg(quantity) from orders group by name;
++------------+---------------+
+| name       | avg(quantity) |
++------------+---------------+
+| AAA BIKE   |        6.3333 |
+| BIKE SPEC  |        9.6667 |
+| JACKS BIKE |       14.0000 |
+| LE SHOPPE  |        4.0000 |
+| TRUE WHEEL |        4.0000 |
++------------+---------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from orders o where 'ROAD BIKE' = (select description from part p where p.partnum = o.partnum);
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select o.orderedon, o.name, o.partnum, o.quantity, o.remarks from orders o, part p where p.partnum = o.partnum and p.description = 'ROAD BIKE';
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from orders;
++------------+------------+---------+----------+---------+
+| orderedon  | name       | partnum | quantity | remarks |
++------------+------------+---------+----------+---------+
+| 1996-05-19 | TRUE WHEEL |      76 |        3 | PAID    |
+| 1996-09-02 | TRUE WHEEL |      10 |        1 | PAID    |
+| 1996-06-30 | TRUE WHEEL |      42 |        8 | PAID    |
+| 1996-06-30 | BIKE SPEC  |      54 |       10 | PAID    |
+| 1996-05-30 | BIKE SPEC  |      23 |        8 | PAID    |
+| 1996-01-17 | BIKE SPEC  |      76 |       11 | PAID    |
+| 1996-01-17 | LE SHOPPE  |      76 |        5 | PAID    |
+| 1996-06-01 | LE SHOPPE  |      10 |        3 | PAID    |
+| 1996-06-01 | AAA BIKE   |      10 |        1 | PAID    |
+| 1996-07-01 | AAA BIKE   |      76 |        4 | PAID    |
+| 1996-07-01 | AAA BIKE   |      46 |       14 | PAID    |
+| 1996-07-11 | JACKS BIKE |      76 |       14 | PAID    |
++------------+------------+---------+----------+---------+
+12 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from orders o where 'ROAD BIKE' = (select price from part p where p.partnum = o.partnum);
+Empty set, 1 warning (0.000 sec)
+
+MariaDB [aisraildb]> select o.partnum, sum(o.quantity * p.price), count(p.partnum) from orders o, part p where p.partnum = o.partnum group by o.partnum having sum(o.quantity * p.price) > (select avg(o1.quantity * p1.price) from part p1, orders o1 where p1.partnum = o1.partnum and p1.partnum = o.partnum);
++---------+---------------------------+------------------+
+| partnum | sum(o.quantity * p.price) | count(p.partnum) |
++---------+---------------------------+------------------+
+|      10 |                   6000.00 |                3 |
+|      76 |                  19610.00 |                5 |
++---------+---------------------------+------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders where exists (select * from orders where name = 'TRUE WHEEL');
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
+| BIKE SPEC  | 1996-06-30 |
+| BIKE SPEC  | 1996-05-30 |
+| BIKE SPEC  | 1996-01-17 |
+| LE SHOPPE  | 1996-01-17 |
+| LE SHOPPE  | 1996-06-01 |
+| AAA BIKE   | 1996-06-01 |
+| AAA BIKE   | 1996-07-01 |
+| AAA BIKE   | 1996-07-01 |
+| JACKS BIKE | 1996-07-11 |
++------------+------------+
+12 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders o where exists (select * from customer c where state ='NE' and c.name = o.name);
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
+| AAA BIKE   | 1996-06-01 |
+| AAA BIKE   | 1996-07-01 |
+| AAA BIKE   | 1996-07-01 |
++------------+------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders where name = any (select name from orders where name = 'TRUE WHEEL');
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
++------------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders where name = some (select name from orders where name = 'TRUE WHEEL');
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
++------------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders where name in (select name from orders where name = 'TRUE WHEEL');
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
++------------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders where name > any (select name from orders where name = 'JACKS BIKE');
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
+| LE SHOPPE  | 1996-01-17 |
+| LE SHOPPE  | 1996-06-01 |
++------------+------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, orderedon from orders where name <> all (select name from orders where name = 'JACKS BIKE');
++------------+------------+
+| name       | orderedon  |
++------------+------------+
+| TRUE WHEEL | 1996-05-19 |
+| TRUE WHEEL | 1996-09-02 |
+| TRUE WHEEL | 1996-06-30 |
+| BIKE SPEC  | 1996-06-30 |
+| BIKE SPEC  | 1996-05-30 |
+| BIKE SPEC  | 1996-01-17 |
+| LE SHOPPE  | 1996-01-17 |
+| LE SHOPPE  | 1996-06-01 |
+| AAA BIKE   | 1996-06-01 |
+| AAA BIKE   | 1996-07-01 |
+| AAA BIKE   | 1996-07-01 |
++------------+------------+
+11 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> notee
