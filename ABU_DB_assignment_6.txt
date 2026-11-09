@@ -1,0 +1,184 @@
+MariaDB [aisraildb]> create table teamstats
+    -> (name        varchar(10)    not null,
+    ->  pos         varchar(3)     not null,
+    ->  ab          numeric(3)     not null,
+    ->  hits        numeric(4)     not null,
+    ->  walks       varchar(5)     not null,
+    ->  singles     varchar(7)     not null,
+    ->  doubles     varchar(7)     not null,
+    ->  triples     varchar(7)     not null,
+    ->  hr          numeric(2)     not null,
+    ->  so          varchar(2)     not null);
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into teamstats values
+    -> ('JONES', '1B', '145', '45', '34', '31', '8', '1', '5', '10');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into teamstats values
+    -> ('DONKNOW', '3B', '175', '65', '23', '50', '10', '1', '4', '15');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into teamstats values
+    -> ('WORLEY', 'LF', '157', '49', '15', '35', '8', '3', '3', '16');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into teamstats values
+    -> ('DAVID', 'OF', '187', '70', '24', '48', '4', '0', '17', '42');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into teamstats values
+    -> ('HAMHOCKER', '3B', '50', '12', '10', '10', '2', '0', '0', '13');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into teamstats values
+    -> ('CASEY', 'DH', '1', '0', '0', '0', '0', '0', '0', '1');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> select name, hits/ab as average
+    -> from teamstats
+    -> where hits/ab < .250;
++-----------+---------+
+| name      | average |
++-----------+---------+
+| HAMHOCKER |  0.2400 |
+| CASEY     |  0.0000 |
++-----------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select max(hits/ab), min(hits/ab) from teamstats;
++--------------+--------------+
+| max(hits/ab) | min(hits/ab) |
++--------------+--------------+
+|       0.3743 |       0.0000 |
++--------------+--------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select max(ab) from teamstats;
++---------+
+| max(ab) |
++---------+
+|     187 |
++---------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select min(ab) from teamstats;
++---------+
+| min(ab) |
++---------+
+|       1 |
++---------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select std(walks) from teamstats;
++--------------------+
+| std(walks)         |
++--------------------+
+| 10.903618155864084 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> create table characters
+    -> (lastname      varchar(15)     not null,
+    ->  firstname     varchar(15)     not null,
+    ->  m             char(1)         null,
+    ->  code          numeric(10)     not null);
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into characters values
+    -> ('PURVIS', 'KELLY', 'A', '32');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into characters values
+    -> ('TAYLOR', 'CHUCK', 'J', '67');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into characters values
+    -> ('CHRISTINE', 'LAURA', 'C', '65');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into characters values
+    -> ('ADAMS', 'FESTER', 'M', '87');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into characters values
+    -> ('COSTALES', 'ARMANDO', 'A', '77');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> 
+MariaDB [aisraildb]> insert into characters values
+    -> ('KONG', 'MAJOR', 'G', '52');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> select concat(lastname, ', ', firstname, ', ', m, ' ', code)
+    -> from characters;
++-------------------------------------------------------+
+| concat(lastname, ', ', firstname, ', ', m, ' ', code) |
++-------------------------------------------------------+
+| PURVIS, KELLY, A 32                                   |
+| TAYLOR, CHUCK, J 67                                   |
+| CHRISTINE, LAURA, C 65                                |
+| ADAMS, FESTER, M 87                                   |
+| COSTALES, ARMANDO, A 77                               |
+| KONG, MAJOR, G 52                                     |
++-------------------------------------------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select lower(firstname), lower(lastname), lower(m)
+    -> from characters;
++------------------+-----------------+----------+
+| lower(firstname) | lower(lastname) | lower(m) |
++------------------+-----------------+----------+
+| kelly            | purvis          | a        |
+| chuck            | taylor          | j        |
+| laura            | christine       | c        |
+| fester           | adams           | m        |
+| armando          | costales        | a        |
+| major            | kong            | g        |
++------------------+-----------------+----------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select max(length(name)) from teamstats;
++-------------------+
+| max(length(name)) |
++-------------------+
+|                 9 |
++-------------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select concat(upper(mid(firstname, 1, 1)), lower(mid(firstname, 2)))
+    -> from characters;
++---------------------------------------------------------------+
+| concat(upper(mid(firstname, 1, 1)), lower(mid(firstname, 2))) |
++---------------------------------------------------------------+
+| Kelly                                                         |
+| Chuck                                                         |
+| Laura                                                         |
+| Fester                                                        |
+| Armando                                                       |
+| Major                                                         |
++---------------------------------------------------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select 4 * power(ln(3), 3) * 3.14 / 3;
++--------------------------------+
+| 4 * power(ln(3), 3) * 3.14 / 3 |
++--------------------------------+
+|             5.5513900464691615 |
++--------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> --This is an equation of a sphere’s volume, (4/3)πr³, where r = ln(3). The use of pi() instead of 3.14 increases precision to approximately 5.5539.
+MariaDB [aisraildb]> notee

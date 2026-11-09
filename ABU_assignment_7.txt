@@ -1,0 +1,288 @@
+MariaDB [aisraildb]> create table stock
+    -> (stock_id numeric(10) not null,
+    -> title varchar(80) not null,
+    -> amount numeric(10) not null);
+Query OK, 0 rows affected (0.035 sec)
+
+MariaDB [aisraildb]> insert into stock values(1,'SAHARA',3);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into stock values(2,'CASABLANCA',3);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into stock values(3,'TO HAVE AND HAVE NOT',1);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into stock values(4,'THE MALTESE FALCON',5);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into stock values(5,'THE BIG SLEEP',4);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into stock values(6,'SAVING PRIVATE RYAN',7);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> create table media
+    -> (media_id numeric(10) not null,
+    -> description varchar(5) not null);
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [aisraildb]> insert into media values(1,'DVD');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into media values(2,'VIDEO');
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [aisraildb]> select * from stock;
++----------+----------------------+--------+
+| stock_id | title                | amount |
++----------+----------------------+--------+
+|        1 | SAHARA               |      3 |
+|        2 | CASABLANCA           |      3 |
+|        3 | TO HAVE AND HAVE NOT |      1 |
+|        4 | THE MALTESE FALCON   |      5 |
+|        5 | THE BIG SLEEP        |      4 |
+|        6 | SAVING PRIVATE RYAN  |      7 |
++----------+----------------------+--------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select * from media;
++----------+-------------+
+| media_id | description |
++----------+-------------+
+|        1 | DVD         |
+|        2 | VIDEO       |
++----------+-------------+
+2 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> create table cust
+    -> (cust_id numeric(5) not null,
+    -> stock_id numeric(5) not null,
+    -> media_id numeric(1) not null,
+    -> fname varchar(10) not null,
+    -> lname varchar(10) not null,
+    -> dob date not null,
+    -> dt_rent date null,
+    -> days_rent numeric(1) not null,
+    -> dt_rt date null);
+Query OK, 0 rows affected (0.012 sec)
+
+MariaDB [aisraildb]> insert into cust values (11122,3,1,'TULL','JETHRO','1980-05-02','2002-04-14',5,NULL);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into cust values (11122,4,1,'TULL','JETHRO','1980-05-02','2002-05-01',5,'2002-05-04');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into cust values (22233,5,1,'SMITH','MISTER','1962-09-03','2002-06-01',1,NULL);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into cust values (21243,6,2,'KAYLEIGH','YVONNE','1986-05-01','2002-06-10',5,NULL);
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into cust values (34213,2,2,'JUSTESS','HEATHER','1985-12-31','2002-06-02',3,'2002-06-05');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> select * from cust;
++---------+----------+----------+----------+---------+------------+------------+-----------+------------+
+| cust_id | stock_id | media_id | fname    | lname   | dob        | dt_rent    | days_rent | dt_rt      |
++---------+----------+----------+----------+---------+------------+------------+-----------+------------+
+| 11122   |        3 |        1 | TULL     | JETHRO  | 1980-05-02 | 2002-04-14 |         5 | NULL       |
+| 11122   |        4 |        1 | TULL     | JETHRO  | 1980-05-02 | 2002-05-01 |         5 | 2002-05-04 |
+| 22233   |        5 |        1 | SMITH    | MISTER  | 1962-09-03 | 2002-06-01 |         1 | NULL       |
+| 21243   |        6 |        2 | KAYLEIGH | YVONNE  | 1986-05-01 | 2002-06-10 |         5 | NULL       |
+| 34213   |        2 |        2 | JUSTESS  | HEATHER | 1985-12-31 | 2002-06-02 |         3 | 2002-06-05 |
++---------+----------+----------+----------+---------+------------+------------+-----------+------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> desc cust;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_id   | decimal(5,0) | NO   |     | NULL    |       |
+| stock_id  | decimal(5,0) | NO   |     | NULL    |       |
+| media_id  | decimal(1,0) | NO   |     | NULL    |       |
+| fname     | varchar(10)  | NO   |     | NULL    |       |
+| lname     | varchar(10)  | NO   |     | NULL    |       |
+| dob       | date         | NO   |     | NULL    |       |
+| dt_rent   | date         | YES  |     | NULL    |       |
+| days_rent | decimal(1,0) | NO   |     | NULL    |       |
+| dt_rt     | date         | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+9 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> alter table cust modify cust_id varchar(5) not null;
+Query OK, 5 rows affected (0.015 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> desc cust;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_id   | varchar(5)   | NO   |     | NULL    |       |
+| stock_id  | decimal(5,0) | NO   |     | NULL    |       |
+| media_id  | decimal(1,0) | NO   |     | NULL    |       |
+| fname     | varchar(10)  | NO   |     | NULL    |       |
+| lname     | varchar(10)  | NO   |     | NULL    |       |
+| dob       | date         | NO   |     | NULL    |       |
+| dt_rent   | date         | YES  |     | NULL    |       |
+| days_rent | decimal(1,0) | NO   |     | NULL    |       |
+| dt_rt     | date         | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+9 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> desc stock;
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| stock_id | decimal(10,0) | NO   |     | NULL    |       |
+| title    | varchar(80)   | NO   |     | NULL    |       |
+| amount   | decimal(10,0) | NO   |     | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+3 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> desc media;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| media_id    | decimal(10,0) | NO   |     | NULL    |       |
+| description | varchar(5)    | NO   |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+2 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> desc cust;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_id   | varchar(5)   | NO   |     | NULL    |       |
+| stock_id  | decimal(5,0) | NO   |     | NULL    |       |
+| media_id  | decimal(1,0) | NO   |     | NULL    |       |
+| fname     | varchar(10)  | NO   |     | NULL    |       |
+| lname     | varchar(10)  | NO   |     | NULL    |       |
+| dob       | date         | NO   |     | NULL    |       |
+| dt_rent   | date         | YES  |     | NULL    |       |
+| days_rent | decimal(1,0) | NO   |     | NULL    |       |
+| dt_rt     | date         | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+9 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> create table `view` as
+    -> select c.fname, s.title, m.description as media_description
+    -> from cust c
+    -> join stock s on c.stock_id = s.stock_id
+    -> join media m on c.media_id = m.media_id;
+Query OK, 5 rows affected (0.009 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> select * from `view`;
++----------+----------------------+-------------------+
+| fname    | title                | media_description |
++----------+----------------------+-------------------+
+| TULL     | TO HAVE AND HAVE NOT | DVD               |
+| TULL     | THE MALTESE FALCON   | DVD               |
+| SMITH    | THE BIG SLEEP        | DVD               |
+| KAYLEIGH | SAVING PRIVATE RYAN  | VIDEO             |
+| JUSTESS  | CASABLANCA           | VIDEO             |
++----------+----------------------+-------------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> create table age as
+    -> select concat(c.fname, ' ', c.lname) as full_name,
+    ->        s.title,
+    ->        timestampdiff(year, c.dob, curdate()) as age_years
+    -> from cust c
+    -> join stock s on c.stock_id = s.stock_id;
+Query OK, 5 rows affected (0.011 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> select * from age;
++-----------------+----------------------+-----------+
+| full_name       | title                | age_years |
++-----------------+----------------------+-----------+
+| TULL JETHRO     | TO HAVE AND HAVE NOT |        46 |
+| TULL JETHRO     | THE MALTESE FALCON   |        46 |
+| SMITH MISTER    | THE BIG SLEEP        |        64 |
+| KAYLEIGH YVONNE | SAVING PRIVATE RYAN  |        40 |
+| JUSTESS HEATHER | CASABLANCA           |        40 |
++-----------------+----------------------+-----------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> alter table age add junk_food varchar(30) not null;
+Query OK, 0 rows affected (0.013 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> desc age;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| full_name | varchar(21) | YES  |     | NULL    |       |
+| title     | varchar(80) | NO   |     | NULL    |       |
+| age_years | bigint(21)  | YES  |     | NULL    |       |
+| junk_food | varchar(30) | NO   |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> alter table age change junk_food snack_purchase varchar(30) null;
+Query OK, 0 rows affected (0.014 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> desc age;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| full_name      | varchar(21) | YES  |     | NULL    |       |
+| title          | varchar(80) | NO   |     | NULL    |       |
+| age_years      | bigint(21)  | YES  |     | NULL    |       |
+| snack_purchase | varchar(30) | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> create table room
+    -> (room_id numeric(4) not null,
+    -> room_type varchar(20) not null,
+    -> price_per_night decimal(6,2) not null,
+    -> max_guests numeric(2) not null,
+    -> floor_num numeric(2) not null,
+    -> last_cleaned date not null);
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [aisraildb]> insert into room values (101,'SINGLE',89.99,1,1,'2026-11-01');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into room values (205,'DOUBLE',129.50,2,2,'2026-11-02');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into room values (310,'FAMILY SUITE',219.00,5,3,'2026-11-03');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into room values (402,'DELUXE KING',179.75,2,4,'2026-11-04');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> insert into room values (501,'PENTHOUSE',450.00,4,5,'2026-11-04');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> desc room;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| room_id         | decimal(4,0) | NO   |     | NULL    |       |
+| room_type       | varchar(20)  | NO   |     | NULL    |       |
+| price_per_night | decimal(6,2) | NO   |     | NULL    |       |
+| max_guests      | decimal(2,0) | NO   |     | NULL    |       |
+| floor_num       | decimal(2,0) | NO   |     | NULL    |       |
+| last_cleaned    | date         | NO   |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+6 rows in set (0.002 sec)
+
+MariaDB [aisraildb]> select * from room;
++---------+--------------+-----------------+------------+-----------+--------------+
+| room_id | room_type    | price_per_night | max_guests | floor_num | last_cleaned |
++---------+--------------+-----------------+------------+-----------+--------------+
+|     101 | SINGLE       |           89.99 |          1 |         1 | 2026-11-01   |
+|     205 | DOUBLE       |          129.50 |          2 |         2 | 2026-11-02   |
+|     310 | FAMILY SUITE |          219.00 |          5 |         3 | 2026-11-03   |
+|     402 | DELUXE KING  |          179.75 |          2 |         4 | 2026-11-04   |
+|     501 | PENTHOUSE    |          450.00 |          4 |         5 | 2026-11-04   |
++---------+--------------+-----------------+------------+-----------+--------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> --This table is useful for the hotel project because many other parts of the system depend on it. When a guest makes a booking, the system can check the room type, price and maximum guests to find a room that fits. Housekeeping can use the last_cleaned date to see which rooms need attention next. Later, a GUEST table and a BOOKING table could link to room_id, which would let the hotel track who is staying in which room and for how long, and calculate the total cost of a stay.
