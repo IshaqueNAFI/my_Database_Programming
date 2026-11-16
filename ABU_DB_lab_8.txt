@@ -1,0 +1,54 @@
+MariaDB [aisraildb]> CREATE TABLE EMP (EMP_ID VARCHAR(9),EMP_NAME VARCHAR(30),ADDRESS VARCHAR(30), CITY VARCHAR(30),STATE VARCHAR(2),ZIP VARCHAR(5),PHONE VARCHAR(10));
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [aisraildb]> DROP TABLE EMP;
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [aisraildb]> CREATE TABLE EMP (EMP_ID VARCHAR(9) NOT NULL,EMP_NAME VARCHAR(30) NOT NULL,ADDRESS VARCHAR(30) NOT NULL, CITY VARCHAR(30) NOT NULL, STATE VARCHAR(2) NOT NULL, ZIP VARCHAR(5) NOT NULL,PHONE VARCHAR(10));
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [aisraildb]> DROP TABLE EMP;
+Query OK, 0 rows affected (0.004 sec)
+
+MariaDB [aisraildb]> CREATE TABLE EMP
+    -> (EMP_ID VARCHAR(9) not null primary key,
+    -> EMP_NAME VARCHAR(30) not null,
+    -> ADDRESS VARCHAR(30) not null,
+    -> CITY VARCHAR(30) not null,
+    -> STATE VARCHAR(2) not null,
+    -> ZIP VARCHAR(5) not null,
+    -> PHONE VARCHAR(10));
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [aisraildb]> DROP TABLE EMP;
+Query OK, 0 rows affected (0.068 sec)
+
+MariaDB [aisraildb]> CREATE TABLE EMP (EMP_ID VARCHAR(9) not null, EMP_NAME VARCHAR(30) not null,ADDRESS VARCHAR(30) not null, CITY VARCHAR(30) not null, STATE VARCHAR(2) not null, ZIP VARCHAR(5) not null, PHONE VARCHAR(10) NULL, PRIMARY KEY (EMP_ID));
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [aisraildb]> DROP TABLE EMP;
+Query OK, 0 rows affected (0.063 sec)
+
+MariaDB [aisraildb]> CREATE TABLE EMP (EMP_ID CHAR(9) NOT NULL PRIMARY KEY,
+    ->  EMP_NAME VARCHAR(40) NOT NULL, ADDRESS VARCHAR(20) NOT NULL,
+    -> CITY VARCHAR(15) NOT NULL,  STATE CHAR(2) NOT NULL, ZIP NUMERIC(5) NOT NULL,
+    -> PHONE NUMERIC(10) NULL UNIQUE);
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [aisraildb]>  CREATE TABLE EMP_PAY (EMP_ID CHAR(9) NOT NULL,POSITION VARCHAR(15) NOT NULL,PAY_RATE DECIMAL(4,2) NOT NULL, FOREIGN KEY EMP_ID_FK (EMP_ID) REFERENCES EMP (EMP_ID));
+Query OK, 0 rows affected (0.014 sec)
+
+MariaDB [aisraildb]> DROP TABLE EMP_PAY;
+Query OK, 0 rows affected (0.065 sec)
+
+MariaDB [aisraildb]> DROP TABLE EMP;
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [aisraildb]>  CREATE TABLE EMP (EMP_ID CHAR(9) NOT NULL PRIMARY KEY, EMP_NAME VARCHAR(40) NOT NULL, ADDRESS VARCHAR(20) NOT NULL, CITY VARCHAR(15) NOT NULL, STATE CHAR(2) NOT NULL, ZIP NUMERIC(5) NOT NULL, PHONE NUMERIC(10), CONSTRAINT CHK_EMP_ZIP CHECK ( ZIP = '46234'));
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [aisraildb]>  CREATE TABLE EMP_PAY(EMP_ID CHAR(9) NOT NULL, POSITION VARCHAR(15) NOT NULL, PAY_RATE DECIMAL(4,2) NOT NULL,
+    ->  FOREIGN KEY EMP_ID_FK (EMP_ID) REFERENCES EMP (EMP_ID),CONSTRAINT CHK_PAY CHECK (PAY_RATE > 12.50));
+Query OK, 0 rows affected (0.009 sec)
+
+

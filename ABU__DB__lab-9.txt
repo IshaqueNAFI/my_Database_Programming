@@ -1,0 +1,267 @@
+MariaDB [aisraildb]> CREATE TABLE COLLECTION (ITEM VARCHAR(20) UNIQUE,WORTH DECIMAL(5,2) NOT NULL,REMARKS VARCHAR(30));
+Query OK, 0 rows affected (0.013 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES('NBA ALL STAR CARDS',300,'SOME STILL IN BIKE SPOKES');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES ('MALIBU BARBIE',150,'TAN STILL NEEDS WORK');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES ('STAR WARS GLASS',5.5,'HANDLE CHIPPED');
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES ('LOCK OF EX-SPOUSES HAIR',1,'HASN\'T NOTICED BALD SPOT YET');
+ERROR 1406 (22001): Data too long for column 'ITEM' at row 1
+MariaDB [aisraildb]> ALTER TABLE COLLECTION MODIFY ITEM VARCHAR(50) UNIQUE;
+Query OK, 0 rows affected, 1 warning (0.017 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES
+    -> ('LOCK OF EX-SPOUSES HAIR',1,'HASN\'T NOTICED BALD SPOT YET');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION;
++-------------------------+--------+------------------------------+
+| ITEM                    | WORTH  | REMARKS                      |
++-------------------------+--------+------------------------------+
+| NBA ALL STAR CARDS      | 300.00 | SOME STILL IN BIKE SPOKES    |
+| MALIBU BARBIE           | 150.00 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         |   5.50 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR |   1.00 | HASN'T NOTICED BALD SPOT YET |
++-------------------------+--------+------------------------------+
+4 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION
+    ->  (ITEM, WORTH, REMARKS)
+    -> VALUES('SUPERMANS CAPE', 250.00, 'TUGGED ON IT');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION;
++-------------------------+--------+------------------------------+
+| ITEM                    | WORTH  | REMARKS                      |
++-------------------------+--------+------------------------------+
+| NBA ALL STAR CARDS      | 300.00 | SOME STILL IN BIKE SPOKES    |
+| MALIBU BARBIE           | 150.00 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         |   5.50 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR |   1.00 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          | 250.00 | TUGGED ON IT                 |
++-------------------------+--------+------------------------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES ('STRING',1000.00,'SOME DAY IT WILL BE VALUABLE');
+ERROR 1264 (22003): Out of range value for column 'WORTH' at row 1
+MariaDB [aisraildb]> ALTER TABLE COLLECTION MODIFY WORTH DECIMAL(7,2) NOT NULL;
+Query OK, 5 rows affected (0.028 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES ('STRING',1000.00,'SOME DAY IT WILL BE VALUABLE');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION;
++-------------------------+---------+------------------------------+
+| ITEM                    | WORTH   | REMARKS                      |
++-------------------------+---------+------------------------------+
+| NBA ALL STAR CARDS      |  300.00 | SOME STILL IN BIKE SPOKES    |
+| MALIBU BARBIE           |  150.00 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         |    5.50 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR |    1.00 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          |  250.00 | TUGGED ON IT                 |
+| STRING                  | 1000.00 | SOME DAY IT WILL BE VALUABLE |
++-------------------------+---------+------------------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES
+    -> ('SPORES MILDEW FUNGUS', 50.00, ' ');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION
+    -> WHERE REMARKS = ' ';
++----------------------+-------+---------+
+| ITEM                 | WORTH | REMARKS |
++----------------------+-------+---------+
+| SPORES MILDEW FUNGUS | 50.00 |         |
++----------------------+-------+---------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> ALTER TABLE COLLECTION
+    -> MODIFY REMARKS VARCHAR(30) NOT NULL;
+Query OK, 0 rows affected (0.019 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> DELETE FROM COLLECTION WHERE WORTH = 50;
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES('SPORES MILDEW FUNGUS',50.00,NULL);
+ERROR 1048 (23000): Column 'REMARKS' cannot be null
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES('STRING', 50, 'MORE STRING');
+ERROR 1062 (23000): Duplicate entry 'STRING' for key 'ITEM'
+MariaDB [aisraildb]> CREATE TABLE INVENTORY (ITEM VARCHAR(20), COST NUMERIC,ROOM VARCHAR(20),
+    -> REMARKS VARCHAR(40));
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [aisraildb]> INSERT INTO INVENTORY (ITEM, COST, REMARKS)  SELECT ITEM, WORTH, REMARKS FROM COLLECTION;
+ERROR 1406 (22001): Data too long for column 'ITEM' at row 4
+MariaDB [aisraildb]> ALTER TABLE INVENTORY
+    -> MODIFY ITEM VARCHAR(50);
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> INSERT INTO INVENTORY (ITEM, COST, REMARKS) SELECT ITEM, WORTH, REMARKS
+    -> FROM COLLECTION;
+Query OK, 6 rows affected, 1 warning (0.002 sec)
+Records: 6  Duplicates: 0  Warnings: 1
+
+MariaDB [aisraildb]> SELECT * FROM INVENTORY;
++-------------------------+------+------+------------------------------+
+| ITEM                    | COST | ROOM | REMARKS                      |
++-------------------------+------+------+------------------------------+
+| NBA ALL STAR CARDS      |  300 | NULL | SOME STILL IN BIKE SPOKES    |
+| MALIBU BARBIE           |  150 | NULL | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         |    6 | NULL | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR |    1 | NULL | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          |  250 | NULL | TUGGED ON IT                 |
+| STRING                  | 1000 | NULL | SOME DAY IT WILL BE VALUABLE |
++-------------------------+------+------+------------------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> UPDATE COLLECTION SET WORTH = 900 WHERE ITEM = 'STRING';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION WHERE ITEM = 'STRING';
++--------+--------+------------------------------+
+| ITEM   | WORTH  | REMARKS                      |
++--------+--------+------------------------------+
+| STRING | 900.00 | SOME DAY IT WILL BE VALUABLE |
++--------+--------+------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> UPDATE COLLECTION SET WORTH = 900, ITEM = 'BALL'  WHERE ITEM = 'STRING';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [aisraildb]> UPDATE COLLECTION SET WORTH = 555;
+Query OK, 6 rows affected (0.001 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION;
++-------------------------+--------+------------------------------+
+| ITEM                    | WORTH  | REMARKS                      |
++-------------------------+--------+------------------------------+
+| NBA ALL STAR CARDS      | 555.00 | SOME STILL IN BIKE SPOKES    |
+| MALIBU BARBIE           | 555.00 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         | 555.00 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR | 555.00 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          | 555.00 | TUGGED ON IT                 |
+| BALL                    | 555.00 | SOME DAY IT WILL BE VALUABLE |
++-------------------------+--------+------------------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> UPDATE COLLECTION SET WORTH = 100
+    -> WHERE ITEM = 'NBA ALL STAR CARDS';
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [aisraildb]> DELETE FROM COLLECTION WHERE WORTH < 275;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION;
++-------------------------+--------+------------------------------+
+| ITEM                    | WORTH  | REMARKS                      |
++-------------------------+--------+------------------------------+
+| MALIBU BARBIE           | 555.00 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         | 555.00 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR | 555.00 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          | 555.00 | TUGGED ON IT                 |
+| BALL                    | 555.00 | SOME DAY IT WILL BE VALUABLE |
++-------------------------+--------+------------------------------+
+5 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION VALUES('CHIA PET', 5,'WEDDING GIFT');
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION
+    -> VALUES('TRS MODEL III', 50, 'FIRST COMPUTER');
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [aisraildb]> CREATE TABLE TEMP
+    -> (NAME VARCHAR(20), VALUE NUMERIC, REMARKS VARCHAR(40));
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [aisraildb]> INSERT INTO TEMP(NAME, VALUE, REMARKS)
+    -> SELECT ITEM, WORTH, REMARKS
+    -> FROM COLLECTION;
+ERROR 1406 (22001): Data too long for column 'NAME' at row 3
+MariaDB [aisraildb]> ALTER TABLE TEMP MODIFY NAME VARCHAR(50);
+Query OK, 0 rows affected (0.009 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> INSERT INTO TEMP(NAME, VALUE, REMARKS) SELECT ITEM, WORTH, REMARKS
+    -> FROM COLLECTION;
+Query OK, 7 rows affected (0.001 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM TEMP;
++-------------------------+-------+------------------------------+
+| NAME                    | VALUE | REMARKS                      |
++-------------------------+-------+------------------------------+
+| MALIBU BARBIE           |   555 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         |   555 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR |   555 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          |   555 | TUGGED ON IT                 |
+| BALL                    |   555 | SOME DAY IT WILL BE VALUABLE |
+| CHIA PET                |     5 | WEDDING GIFT                 |
+| TRS MODEL III           |    50 | FIRST COMPUTER               |
++-------------------------+-------+------------------------------+
+7 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> UPDATE TEMP
+    -> SET VALUE = 100
+    -> WHERE NAME = 'TRS MODEL III';
+Query OK, 1 row affected (0.005 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [aisraildb]> UPDATE TEMP SET VALUE = 8
+    -> WHERE NAME = 'CHIA PET';
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM TEMP;
++-------------------------+-------+------------------------------+
+| NAME                    | VALUE | REMARKS                      |
++-------------------------+-------+------------------------------+
+| MALIBU BARBIE           |   555 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         |   555 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR |   555 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          |   555 | TUGGED ON IT                 |
+| BALL                    |   555 | SOME DAY IT WILL BE VALUABLE |
+| CHIA PET                |     8 | WEDDING GIFT                 |
+| TRS MODEL III           |   100 | FIRST COMPUTER               |
++-------------------------+-------+------------------------------+
+7 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> DELETE FROM COLLECTION;
+Query OK, 7 rows affected (0.001 sec)
+
+MariaDB [aisraildb]> INSERT INTO COLLECTION SELECT * FROM TEMP;
+Query OK, 7 rows affected (0.003 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> DROP TABLE TEMP;
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COLLECTION;
++-------------------------+--------+------------------------------+
+| ITEM                    | WORTH  | REMARKS                      |
++-------------------------+--------+------------------------------+
+| MALIBU BARBIE           | 555.00 | TAN STILL NEEDS WORK         |
+| STAR WARS GLASS         | 555.00 | HANDLE CHIPPED               |
+| LOCK OF EX-SPOUSES HAIR | 555.00 | HASN'T NOTICED BALD SPOT YET |
+| SUPERMANS CAPE          | 555.00 | TUGGED ON IT                 |
+| BALL                    | 555.00 | SOME DAY IT WILL BE VALUABLE |
+| CHIA PET                |   8.00 | WEDDING GIFT                 |
+| TRS MODEL III           | 100.00 | FIRST COMPUTER               |
++-------------------------+--------+------------------------------+
+7 rows in set (0.000 sec)
+
+
