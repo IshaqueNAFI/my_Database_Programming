@@ -1,0 +1,516 @@
+MariaDB [aisraildb]> SHOW TABLES;
++---------------------+
+| Tables_in_aisraildb |
++---------------------+
+| BANK_ACCOUNTS       |
+| BILLS               |
+| COLLECTION          |
+| COMPANY             |
+| EMP                 |
+| EMP_PAY             |
+| INVENTORY           |
+| NEW_BILLS           |
+| age                 |
+| bikes               |
+| bills_test          |
+| birthdays           |
+| characters          |
+| checks              |
+| convert             |
+| cust                |
+| customer            |
+| football            |
+| friends             |
+| hilow               |
+| job_tbl             |
+| library             |
+| media               |
+| numbers             |
+| orders              |
+| orgchart            |
+| part                |
+| parts               |
+| precedence          |
+| price               |
+| project             |
+| puzzle              |
+| remains             |
+| sex_codes           |
+| softball            |
+| ssn_table           |
+| stock               |
+| table1              |
+| table2              |
+| teamstats           |
+| vacation            |
+| view                |
++---------------------+
+42 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> DELETE FROM BILLS;
+Query OK, 1 row affected (0.006 sec)
+
+MariaDB [aisraildb]> DELETE FROM BANK_ACCOUNTS;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [aisraildb]> DELETE FROM COMPANY;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [aisraildb]> INSERT INTO BILLS (NAME, AMOUNT, ACCOUNT_ID)
+    -> VALUES
+    -> ('Phone Company', 125, 1),
+    -> ('Power Company', 75, 1),
+    -> ('Record Club', 25, 2),
+    -> ('Software Company', 250, 1),
+    -> ('Cable TV Company', 35, 3),
+    -> ("Joe's Car Palace", 350, 5),
+    -> ('S.C. Student Loan', 200, 6),
+    -> ('Florida Water Company', 20, 1),
+    -> ('U-O-Us Insurance Company', 125, 5),
+    -> ("Debtor's Credit Card", 35, 4);
+Query OK, 10 rows affected (0.001 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM BILLS;
++--------------------------+--------+------------+
+| NAME                     | AMOUNT | ACCOUNT_ID |
++--------------------------+--------+------------+
+| Phone Company            |    125 |          1 |
+| Power Company            |     75 |          1 |
+| Record Club              |     25 |          2 |
+| Software Company         |    250 |          1 |
+| Cable TV Company         |     35 |          3 |
+| Joe's Car Palace         |    350 |          5 |
+| S.C. Student Loan        |    200 |          6 |
+| Florida Water Company    |     20 |          1 |
+| U-O-Us Insurance Company |    125 |          5 |
+| Debtor's Credit Card     |     35 |          4 |
++--------------------------+--------+------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> INSERT INTO BANK_ACCOUNTS (ACCOUNT_ID, TYPE, BALANCE, BANK)
+    -> VALUES
+    -> (1, 'Checking', 500, 'First Federal'),
+    -> (2, 'Money market', 1200, 'First Investor'),
+    -> (3, 'Checking', 90, 'Credit Union'),
+    -> (4, 'Savings', 400, 'First Federal'),
+    -> (5, 'Checking', 2500, 'Second Mutual'),
+    -> (6, 'Business', 4500, 'Fidelity');
+Query OK, 6 rows affected (0.002 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM BANK_ACCOUNTS;
++------------+--------------+---------+----------------+
+| ACCOUNT_ID | TYPE         | BALANCE | BANK           |
++------------+--------------+---------+----------------+
+|          1 | Checking     |     500 | First Federal  |
+|          2 | Money market |    1200 | First Investor |
+|          3 | Checking     |      90 | Credit Union   |
+|          4 | Savings      |     400 | First Federal  |
+|          5 | Checking     |    2500 | Second Mutual  |
+|          6 | Business     |    4500 | Fidelity       |
++------------+--------------+---------+----------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> INSERT INTO COMPANY (NAME, ADDRESS, CITY, STATE)
+    -> VALUES
+    -> ('Phone Company', '111 1st Street', 'Atlanta', 'GA'),
+    -> ('Power Company', '222 2nd Street', 'Jacksonville', 'FL'),
+    -> ('Record Club', '333 3rd Avenue', 'Los Angeles', 'CA'),
+    -> ('Software Company', '444 4th Drive', 'San Francisco', 'CA'),
+    -> ('Cable TV Company', '555 5th Drive', 'Austin', 'TX'),
+    -> ("Joe's Car Palace", '1000 Govt. Blvd', 'Miami', 'FL'),
+    -> ('S.C. Student Loan', '25 College Blvd', 'Columbia', 'SC'),
+    -> ('Florida Water Company', '1883 Hwy 87', 'Navarre', 'FL'),
+    -> ('U-O-Us Insurance Company', '295 Beltline Hwy', 'Macon', 'GA'),
+    -> ("Debtor's Credit Card", '115 2nd Avenue', 'Newark', 'NJ');
+Query OK, 10 rows affected (0.003 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM COMPANY;
++--------------------------+------------------+---------------+-------+
+| NAME                     | ADDRESS          | CITY          | STATE |
++--------------------------+------------------+---------------+-------+
+| Phone Company            | 111 1st Street   | Atlanta       | GA    |
+| Power Company            | 222 2nd Street   | Jacksonville  | FL    |
+| Record Club              | 333 3rd Avenue   | Los Angeles   | CA    |
+| Software Company         | 444 4th Drive    | San Francisco | CA    |
+| Cable TV Company         | 555 5th Drive    | Austin        | TX    |
+| Joe's Car Palace         | 1000 Govt. Blvd  | Miami         | FL    |
+| S.C. Student Loan        | 25 College Blvd  | Columbia      | SC    |
+| Florida Water Company    | 1883 Hwy 87      | Navarre       | FL    |
+| U-O-Us Insurance Company | 295 Beltline Hwy | Macon         | GA    |
+| Debtor's Credit Card     | 115 2nd Avenue   | Newark        | NJ    |
++--------------------------+------------------+---------------+-------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW DEBTS AS
+    -> SELECT * FROM BILLS;
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [aisraildb]> SELECT * FROM DEBTS;
++--------------------------+--------+------------+
+| NAME                     | AMOUNT | ACCOUNT_ID |
++--------------------------+--------+------------+
+| Phone Company            |    125 |          1 |
+| Power Company            |     75 |          1 |
+| Record Club              |     25 |          2 |
+| Software Company         |    250 |          1 |
+| Cable TV Company         |     35 |          3 |
+| Joe's Car Palace         |    350 |          5 |
+| S.C. Student Loan        |    200 |          6 |
+| Florida Water Company    |     20 |          1 |
+| U-O-Us Insurance Company |    125 |          5 |
+| Debtor's Credit Card     |     35 |          4 |
++--------------------------+--------+------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW CREDITCARD_DEBTS AS
+    -> SELECT * FROM DEBTS
+    -> WHERE ACCOUNT_ID = 4;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [aisraildb]> SELECT * FROM CREDITCARD_DEBTS;
++----------------------+--------+------------+
+| NAME                 | AMOUNT | ACCOUNT_ID |
++----------------------+--------+------------+
+| Debtor's Credit Card |     35 |          4 |
++----------------------+--------+------------+
+1 row in set (0.001 sec)
+
+MariaDB [aisraildb]> CREATE VIEW COMPANY_INFO (NAME, STATE) AS
+    -> SELECT NAME, STATE FROM COMPANY;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [aisraildb]> SELECT * FROM COMPANY_INFO;
++--------------------------+-------+
+| NAME                     | STATE |
++--------------------------+-------+
+| Phone Company            | GA    |
+| Power Company            | FL    |
+| Record Club              | CA    |
+| Software Company         | CA    |
+| Cable TV Company         | TX    |
+| Joe's Car Palace         | FL    |
+| S.C. Student Loan        | SC    |
+| Florida Water Company    | FL    |
+| U-O-Us Insurance Company | GA    |
+| Debtor's Credit Card     | NJ    |
++--------------------------+-------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW ENVELOPE (COMPANY, MAILING_ADDRESS) AS
+    -> SELECT NAME, CONCAT(ADDRESS, ' ', CITY, ', ', STATE)
+    -> FROM COMPANY;
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [aisraildb]> SELECT * FROM ENVELOPE;
++--------------------------+---------------------------------+
+| COMPANY                  | MAILING_ADDRESS                 |
++--------------------------+---------------------------------+
+| Phone Company            | 111 1st Street Atlanta, GA      |
+| Power Company            | 222 2nd Street Jacksonville, FL |
+| Record Club              | 333 3rd Avenue Los Angeles, CA  |
+| Software Company         | 444 4th Drive San Francisco, CA |
+| Cable TV Company         | 555 5th Drive Austin, TX        |
+| Joe's Car Palace         | 1000 Govt. Blvd Miami, FL       |
+| S.C. Student Loan        | 25 College Blvd Columbia, SC    |
+| Florida Water Company    | 1883 Hwy 87 Navarre, FL         |
+| U-O-Us Insurance Company | 295 Beltline Hwy Macon, GA      |
+| Debtor's Credit Card     | 115 2nd Avenue Newark, NJ       |
++--------------------------+---------------------------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> SELECT BILLS.NAME, BILLS.AMOUNT,
+    -> BANK_ACCOUNTS.BALANCE, BANK_ACCOUNTS.BANK
+    -> FROM BILLS, BANK_ACCOUNTS
+    -> WHERE BILLS.ACCOUNT_ID = BANK_ACCOUNTS.ACCOUNT_ID;
++--------------------------+--------+---------+----------------+
+| NAME                     | AMOUNT | BALANCE | BANK           |
++--------------------------+--------+---------+----------------+
+| Phone Company            |    125 |     500 | First Federal  |
+| Power Company            |     75 |     500 | First Federal  |
+| Record Club              |     25 |    1200 | First Investor |
+| Software Company         |    250 |     500 | First Federal  |
+| Cable TV Company         |     35 |      90 | Credit Union   |
+| Joe's Car Palace         |    350 |    2500 | Second Mutual  |
+| S.C. Student Loan        |    200 |    4500 | Fidelity       |
+| Florida Water Company    |     20 |     500 | First Federal  |
+| U-O-Us Insurance Company |    125 |    2500 | Second Mutual  |
+| Debtor's Credit Card     |     35 |     400 | First Federal  |
++--------------------------+--------+---------+----------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW BILLS_DUE (NAME, AMOUNT, ACCT_BALANCE, BANK) AS
+    -> SELECT BILLS.NAME, BILLS.AMOUNT,
+    -> BANK_ACCOUNTS.BALANCE, BANK_ACCOUNTS.BANK
+    -> FROM BILLS, BANK_ACCOUNTS
+    -> WHERE BILLS.ACCOUNT_ID = BANK_ACCOUNTS.ACCOUNT_ID;
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [aisraildb]> SELECT * FROM BILLS_DUE
+    -> WHERE ACCT_BALANCE > 500;
++--------------------------+--------+--------------+----------------+
+| NAME                     | AMOUNT | ACCT_BALANCE | BANK           |
++--------------------------+--------+--------------+----------------+
+| Record Club              |     25 |         1200 | First Investor |
+| Joe's Car Palace         |    350 |         2500 | Second Mutual  |
+| S.C. Student Loan        |    200 |         4500 | Fidelity       |
+| U-O-Us Insurance Company |    125 |         2500 | Second Mutual  |
++--------------------------+--------+--------------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> SELECT BILLS.NAME, BILLS.AMOUNT,
+    -> BANK_ACCOUNTS.BALANCE, BANK_ACCOUNTS.BANK
+    -> FROM BILLS, BANK_ACCOUNTS
+    -> WHERE BILLS.ACCOUNT_ID = BANK_ACCOUNTS.ACCOUNT_ID
+    -> AND BANK_ACCOUNTS.BALANCE > 500;
++--------------------------+--------+---------+----------------+
+| NAME                     | AMOUNT | BALANCE | BANK           |
++--------------------------+--------+---------+----------------+
+| Record Club              |     25 |    1200 | First Investor |
+| Joe's Car Palace         |    350 |    2500 | Second Mutual  |
+| S.C. Student Loan        |    200 |    4500 | Fidelity       |
+| U-O-Us Insurance Company |    125 |    2500 | Second Mutual  |
++--------------------------+--------+---------+----------------+
+4 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> SELECT DISTINCT STATE FROM COMPANY;
++-------+
+| STATE |
++-------+
+| GA    |
+| FL    |
+| CA    |
+| TX    |
+| SC    |
+| NJ    |
++-------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> SELECT DISTINCT COMPANY.STATE, COUNT(*)
+    -> FROM BILLS, COMPANY
+    -> WHERE BILLS.NAME = COMPANY.NAME
+    -> GROUP BY COMPANY.STATE;
++-------+----------+
+| STATE | COUNT(*) |
++-------+----------+
+| CA    |        2 |
+| FL    |        3 |
+| GA    |        2 |
+| NJ    |        1 |
+| SC    |        1 |
+| TX    |        1 |
++-------+----------+
+6 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> SELECT DISTINCT COMPANY.STATE,
+    -> COUNT(BILLS.NAME), SUM(BILLS.AMOUNT)
+    -> FROM BILLS, COMPANY
+    -> WHERE BILLS.NAME = COMPANY.NAME
+    -> GROUP BY COMPANY.STATE;
++-------+-------------------+-------------------+
+| STATE | COUNT(BILLS.NAME) | SUM(BILLS.AMOUNT) |
++-------+-------------------+-------------------+
+| CA    |                 2 |               275 |
+| FL    |                 3 |               445 |
+| GA    |                 2 |               250 |
+| NJ    |                 1 |                35 |
+| SC    |                 1 |               200 |
+| TX    |                 1 |                35 |
++-------+-------------------+-------------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW EXAMPLE (STATE, TOTAL_BILLS, TOTAL_AMOUNT) AS
+    -> SELECT DISTINCT COMPANY.STATE,
+    -> COUNT(BILLS.NAME), SUM(BILLS.AMOUNT)
+    -> FROM BILLS, COMPANY
+    -> WHERE BILLS.NAME = COMPANY.NAME
+    -> GROUP BY COMPANY.STATE;
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [aisraildb]> SELECT * FROM EXAMPLE;
++-------+-------------+--------------+
+| STATE | TOTAL_BILLS | TOTAL_AMOUNT |
++-------+-------------+--------------+
+| CA    |           2 |          275 |
+| FL    |           3 |          445 |
+| GA    |           2 |          250 |
+| NJ    |           1 |           35 |
+| SC    |           1 |          200 |
+| TX    |           1 |           35 |
++-------+-------------+--------------+
+6 rows in set (0.001 sec)
+
+MariaDB [aisraildb]> CREATE VIEW LATE_PAYMENT (NAME, NEW_TOTAL, ACCOUNT_TYPE) AS
+    -> SELECT BILLS.NAME, BILLS.AMOUNT * 1.10,
+    -> BANK_ACCOUNTS.TYPE
+    -> FROM BILLS, BANK_ACCOUNTS
+    -> WHERE BILLS.ACCOUNT_ID = BANK_ACCOUNTS.ACCOUNT_ID;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [aisraildb]> SELECT * FROM LATE_PAYMENT;
++--------------------------+-----------+--------------+
+| NAME                     | NEW_TOTAL | ACCOUNT_TYPE |
++--------------------------+-----------+--------------+
+| Phone Company            |    137.50 | Checking     |
+| Power Company            |     82.50 | Checking     |
+| Record Club              |     27.50 | Money market |
+| Software Company         |    275.00 | Checking     |
+| Cable TV Company         |     38.50 | Checking     |
+| Joe's Car Palace         |    385.00 | Checking     |
+| S.C. Student Loan        |    220.00 | Business     |
+| Florida Water Company    |     22.00 | Checking     |
+| U-O-Us Insurance Company |    137.50 | Checking     |
+| Debtor's Credit Card     |     38.50 | Savings      |
++--------------------------+-----------+--------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> ALTER VIEW LATE_PAYMENT AS
+    -> SELECT * FROM BILLS;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [aisraildb]> UPDATE LATE_PAYMENT
+    -> SET AMOUNT = AMOUNT * 1.10;
+Query OK, 10 rows affected, 6 warnings (0.001 sec)
+Rows matched: 10  Changed: 10  Warnings: 6
+
+MariaDB [aisraildb]> SELECT * FROM LATE_PAYMENT;
++--------------------------+--------+------------+
+| NAME                     | AMOUNT | ACCOUNT_ID |
++--------------------------+--------+------------+
+| Phone Company            |    138 |          1 |
+| Power Company            |     83 |          1 |
+| Record Club              |     28 |          2 |
+| Software Company         |    275 |          1 |
+| Cable TV Company         |     39 |          3 |
+| Joe's Car Palace         |    385 |          5 |
+| S.C. Student Loan        |    220 |          6 |
+| Florida Water Company    |     22 |          1 |
+| U-O-Us Insurance Company |    138 |          5 |
+| Debtor's Credit Card     |     39 |          4 |
++--------------------------+--------+------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> SELECT * FROM BILLS;
++--------------------------+--------+------------+
+| NAME                     | AMOUNT | ACCOUNT_ID |
++--------------------------+--------+------------+
+| Phone Company            |    138 |          1 |
+| Power Company            |     83 |          1 |
+| Record Club              |     28 |          2 |
+| Software Company         |    275 |          1 |
+| Cable TV Company         |     39 |          3 |
+| Joe's Car Palace         |    385 |          5 |
+| S.C. Student Loan        |    220 |          6 |
+| Florida Water Company    |     22 |          1 |
+| U-O-Us Insurance Company |    138 |          5 |
+| Debtor's Credit Card     |     39 |          4 |
++--------------------------+--------+------------+
+10 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> DELETE FROM LATE_PAYMENT
+    -> WHERE ACCOUNT_ID = 4;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [aisraildb]> SELECT * FROM LATE_PAYMENT;
++--------------------------+--------+------------+
+| NAME                     | AMOUNT | ACCOUNT_ID |
++--------------------------+--------+------------+
+| Phone Company            |    138 |          1 |
+| Power Company            |     83 |          1 |
+| Record Club              |     28 |          2 |
+| Software Company         |    275 |          1 |
+| Cable TV Company         |     39 |          3 |
+| Joe's Car Palace         |    385 |          5 |
+| S.C. Student Loan        |    220 |          6 |
+| Florida Water Company    |     22 |          1 |
+| U-O-Us Insurance Company |    138 |          5 |
++--------------------------+--------+------------+
+9 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> UPDATE LATE_PAYMENT
+    -> SET AMOUNT = AMOUNT + 10
+    -> WHERE AMOUNT > 100;
+Query OK, 5 rows affected (0.001 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+MariaDB [aisraildb]> SELECT * FROM LATE_PAYMENT;
++--------------------------+--------+------------+
+| NAME                     | AMOUNT | ACCOUNT_ID |
++--------------------------+--------+------------+
+| Phone Company            |    148 |          1 |
+| Power Company            |     83 |          1 |
+| Record Club              |     28 |          2 |
+| Software Company         |    285 |          1 |
+| Cable TV Company         |     39 |          3 |
+| Joe's Car Palace         |    395 |          5 |
+| S.C. Student Loan        |    230 |          6 |
+| Florida Water Company    |     22 |          1 |
+| U-O-Us Insurance Company |    148 |          5 |
++--------------------------+--------+------------+
+9 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW BILLS_NAME AS
+    -> SELECT NAME FROM BILLS;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [aisraildb]> CREATE VIEW CANADIAN_BILLS (NAME, CAN_AMOUNT) AS
+    -> SELECT NAME, AMOUNT / 1.10
+    -> FROM BILLS;
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [aisraildb]> SELECT * FROM CANADIAN_BILLS;
++--------------------------+------------+
+| NAME                     | CAN_AMOUNT |
++--------------------------+------------+
+| Phone Company            |   134.5455 |
+| Power Company            |    75.4545 |
+| Record Club              |    25.4545 |
+| Software Company         |   259.0909 |
+| Cable TV Company         |    35.4545 |
+| Joe's Car Palace         |   359.0909 |
+| S.C. Student Loan        |   209.0909 |
+| Florida Water Company    |    20.0000 |
+| U-O-Us Insurance Company |   134.5455 |
++--------------------------+------------+
+9 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE VIEW BILLS1 AS
+    -> SELECT * FROM BILLS
+    -> WHERE AMOUNT < 50;
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [aisraildb]> CREATE VIEW BILLS2 (NAME, AMOUNT, ACCOUNT_ID) AS
+    -> SELECT BILLS.*
+    -> FROM BILLS, COMPANY
+    -> WHERE BILLS.NAME = COMPANY.NAME
+    -> AND COMPANY.STATE = 'TX';
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [aisraildb]> CREATE VIEW BILLS3 AS
+    -> SELECT * FROM BILLS2
+    -> WHERE NAME IN
+    -> (SELECT NAME FROM BILLS1);
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [aisraildb]> CREATE VIEW BANKS_IN_TEXAS (BANK) AS
+    -> SELECT BANK_ACCOUNTS.BANK
+    -> FROM BANK_ACCOUNTS, BILLS3
+    -> WHERE BILLS3.ACCOUNT_ID = BANK_ACCOUNTS.ACCOUNT_ID;
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [aisraildb]> SELECT * FROM BANKS_IN_TEXAS;
++--------------+
+| BANK         |
++--------------+
+| Credit Union |
++--------------+
+1 row in set (0.001 sec)
+
+MariaDB [aisraildb]> DROP VIEW BILLS1;
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [aisraildb]> SELECT * FROM BANKS_IN_TEXAS;
+ERROR 1356 (HY000): View 'aisraildb.BANKS_IN_TEXAS' references invalid table(s) or column(s) or function(s) or definer/invoker of view lack rights to use them
+MariaDB [aisraildb]> notee

@@ -1,0 +1,114 @@
+MariaDB [aisraildb]> select current_date;
++--------------+
+| current_date |
++--------------+
+| 2026-11-13   |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [aisraildb]> select startdate, date_add(startdate, interval 1 month) "Add Month" from project;
++------------+------------+
+| startdate  | Add Month  |
++------------+------------+
+| 1998-04-01 | 1998-05-01 |
+| 1998-04-02 | 1998-05-02 |
+| 1998-05-15 | 1998-06-15 |
+| 1998-06-01 | 1998-07-01 |
+| 1998-07-01 | 1998-08-01 |
+| 1998-09-03 | 1998-10-03 |
++------------+------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select startdate, date_add(startdate, interval 1 month) "Add Month", date_add(startdate, interval -1 month) "Sub Month" from project;
++------------+------------+------------+
+| startdate  | Add Month  | Sub Month  |
++------------+------------+------------+
+| 1998-04-01 | 1998-05-01 | 1998-03-01 |
+| 1998-04-02 | 1998-05-02 | 1998-03-02 |
+| 1998-05-15 | 1998-06-15 | 1998-04-15 |
+| 1998-06-01 | 1998-07-01 | 1998-05-01 |
+| 1998-07-01 | 1998-08-01 | 1998-06-01 |
+| 1998-09-03 | 1998-10-03 | 1998-08-03 |
++------------+------------+------------+
+6 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> CREATE TABLE birthdays (
+    ->     name VARCHAR(50),
+    ->     dob DATE
+    -> );
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [aisraildb]> INSERT INTO birthdays (name, dob)
+    -> VALUES
+    -> ('daniel', '1999-01-26'),
+    -> ('jack', '1970-03-15');
+Query OK, 2 rows affected (0.004 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [aisraildb]> SELECT name, dob
+    -> FROM birthdays;
++--------+------------+
+| name   | dob        |
++--------+------------+
+| daniel | 1999-01-26 |
+| jack   | 1970-03-15 |
++--------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, datediff(current_date, dob) "days old" from birthdays;
++--------+----------+
+| name   | days old |
++--------+----------+
+| daniel |    10153 |
+| jack   |    20697 |
++--------+----------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, (datediff(current_date, dob))/365 "years old" from birthdays;
++--------+-----------+
+| name   | years old |
++--------+-----------+
+| daniel |   27.8164 |
+| jack   |   56.7041 |
++--------+-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, truncate((datediff(current_date, dob))/365,0)
+    -> "years old"
+    -> from birthdays;
++--------+-----------+
+| name   | years old |
++--------+-----------+
+| daniel |        27 |
+| jack   |        56 |
++--------+-----------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, monthname(dob) Month from birthdays;
++--------+---------+
+| name   | Month   |
++--------+---------+
+| daniel | January |
+| jack   | March   |
++--------+---------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select name, date_format(dob,"%M %e, %Y") "Date of Birth" from birthdays;
++--------+------------------+
+| name   | Date of Birth    |
++--------+------------------+
+| daniel | January 26, 1999 |
+| jack   | March 15, 1970   |
++--------+------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> select str_to_date('01,5,2013','%d, %m, %Y') from birthdays;
++---------------------------------------+
+| str_to_date('01,5,2013','%d, %m, %Y') |
++---------------------------------------+
+| 2013-05-01                            |
+| 2013-05-01                            |
++---------------------------------------+
+2 rows in set (0.000 sec)
+
+MariaDB [aisraildb]> notee
